@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 # Prerequisites
 ####
+=======
+## Prerequisites
+###
+>>>>>>> c7b822b077a405a5765ce6829e04a8adbd6c648c
 - JDK 11
 - Maven 3
 - MySQL 8 
