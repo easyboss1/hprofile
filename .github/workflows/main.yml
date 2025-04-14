@@ -1,5 +1,7 @@
 name: Hprofile Actions
 on: workflow_dispatch
+env:
+  AWS_REGION: us-east-2
 jobs:
   Testing:
     runs-on: ubuntu-latest
@@ -36,5 +38,4 @@ jobs:
            -Dsonar.jacoco.reportsPath=target/jacoco.exec 
            -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml
            -Dsonar.java.binaries=target/test-classes/com/visualpathit/account/controllerTest/
-
     
