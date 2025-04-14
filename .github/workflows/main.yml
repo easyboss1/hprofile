@@ -18,12 +18,18 @@ jobs:
 
       - name: Build with Maven (includes compile + test + coverage)
         run: mvn clean verify
+        working-directory: hprofile
 
       - name: Checkstyle
         run: mvn checkstyle:checkstyle
+        working-directory: hprofile
 
       - name: Setup SonarQube
         uses: warchant/setup-sonar-scanner@v7
+
+      - name: Debug .class files presence
+        run: find target/classes -name "*.class" || echo "No .class files found"
+        working-directory: hprofile
 
       - name: SonarQube Scan
         run: |
@@ -32,10 +38,12 @@ jobs:
             -Dsonar.token=${{ secrets.MY_SONAR_TOKEN }} \
             -Dsonar.organization=${{ secrets.MY_SONAR_ORGANIZATION }} \
             -Dsonar.projectKey=${{ secrets.MY_SONAR_PROJECT_KEY }} \
-            -Dsonar.projectBaseDir=hprofile \
+            -Dsonar.projectBaseDir=. \
             -Dsonar.sources=src/main/java \
             -Dsonar.tests=src/test/java \
             -Dsonar.junit.reportsPath=target/surefire-reports \
             -Dsonar.jacoco.reportPaths=target/jacoco.exec \
             -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml \
             -Dsonar.java.binaries=target/classes
+        working-directory: hprofile
+
