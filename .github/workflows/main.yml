@@ -18,11 +18,11 @@ jobs:
 
       - name: Build with Maven (includes compile + test + coverage)
         run: mvn clean verify
-        working-directory: hprofile
+        
 
       - name: Checkstyle
         run: mvn checkstyle:checkstyle
-        working-directory: hprofile
+        
 
       - name: Setup SonarQube
         uses: warchant/setup-sonar-scanner@v7
@@ -41,4 +41,4 @@ jobs:
             -Dsonar.jacoco.reportPaths=target/jacoco.exec \
             -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml \
             -Dsonar.java.binaries=target/classes,target/test-classes
-        working-directory: hprofile
+        
