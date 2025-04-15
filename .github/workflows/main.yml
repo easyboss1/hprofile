@@ -1,8 +1,5 @@
 name: Hprofile Actions
-
-on: 
-  workflow_dispatch:
-
+on: workflow_dispatch
 jobs:
   Testing:
     runs-on: ubuntu-latest
@@ -10,24 +7,24 @@ jobs:
       - name: Code checkout
         uses: actions/checkout@v4
 
-      - name: Set Java 11
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: '11'
-
-      - name: Build with Maven (includes compile + test + coverage)
-        run: mvn clean verify
+      - name: Maven test
+        run: mvn test
 
       - name: Checkstyle
         run: mvn checkstyle:checkstyle
 
+      # Setup java 11 to be default (sonar-scanner requirement as of 5.x)
+      - name: Set Java 11
+        uses: actions/setup-java@v3
+        with:
+         distribution: 'temurin' # See 'Supported distributions' for available options
+         java-version: '11'
+
+    # Setup sonar-scanner
       - name: Setup SonarQube
         uses: warchant/setup-sonar-scanner@v7
-
-      - name: Debug - list target contents
-        run: ls -R target
-
+   
+    # Run sonar-scanner
       - name: SonarQube Scan
         run: |
           sonar-scanner \
@@ -41,4 +38,4 @@ jobs:
             -Dsonar.jacoco.reportPaths=target/jacoco.exec \
             -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml \
             -Dsonar.exclusions=**/*Test.java \
-            -Dsonar.java.binaries=target/classes
+            -Dsonar.java.binaries=target/classes,target/vprofile-v2/WEB-INF/classes
