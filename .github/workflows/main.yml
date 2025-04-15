@@ -7,39 +7,30 @@ jobs:
       - name: Code checkout
         uses: actions/checkout@v4
 
+      - name: Maven Build
+        run: mvn clean install  # Ensure compiled classes are generated
+
       - name: Maven test
         run: mvn test
 
       - name: Checkstyle
         run: mvn checkstyle:checkstyle
 
-      # Setup Java 11 to be default (Sonar-scanner requirement as of 5.x)
+      # Setup Java 11 to be default (SonarScanner requirement as of 5.x)
       - name: Set Java 11
         uses: actions/setup-java@v3
         with:
-          distribution: 'temurin' # See 'Supported distributions' for available options
+          distribution: 'temurin' 
           java-version: '11'
 
-      # List compiled .class files to ensure they're available
-      - name: List compiled .class files
-        run: |
-          echo "Listing compiled classes in target/classes"
-          find target/classes -name "*.class"
-          echo "Listing compiled classes in target/vprofile-v2/WEB-INF/classes"
-          if [ -d "target/vprofile-v2/WEB-INF/classes" ]; then
-            find target/vprofile-v2/WEB-INF/classes -name "*.class"
-          else
-            echo "Directory target/vprofile-v2/WEB-INF/classes does not exist."
-          fi
-
-      # Setup SonarQube
+      # Setup SonarQube Scanner
       - name: Setup SonarQube
         uses: warchant/setup-sonar-scanner@v7
 
-      # Run sonar-scanner with debug logging enabled
+      # Run SonarQube analysis
       - name: SonarQube Scan
         run: |
-          sonar-scanner -X \
+          sonar-scanner \
             -Dsonar.host.url=${{ secrets.MY_SONAR_URL }} \
             -Dsonar.token=${{ secrets.MY_SONAR_TOKEN }} \
             -Dsonar.organization=${{ secrets.MY_SONAR_ORGANIZATION }} \
@@ -51,5 +42,3 @@ jobs:
             -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml \
             -Dsonar.exclusions=**/*Test.java \
             -Dsonar.java.binaries=target/classes
-            -Dsonar.verbose=false  # Turn off verbose debug logging
-            
