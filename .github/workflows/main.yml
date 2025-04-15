@@ -18,11 +18,9 @@ jobs:
 
       - name: Build with Maven (includes compile + test + coverage)
         run: mvn clean verify
-        
 
       - name: Checkstyle
         run: mvn checkstyle:checkstyle
-        
 
       - name: Setup SonarQube
         uses: warchant/setup-sonar-scanner@v7
@@ -39,7 +37,5 @@ jobs:
             -Dsonar.junit.reportsPath=target/surefire-reports \
             -Dsonar.jacoco.reportPaths=target/jacoco.exec \
             -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml \
-            -Dsonar.exclusions=**/*.java
+            -Dsonar.exclusions=**/*Test.java \
             -Dsonar.java.binaries=target/classes
-        
-        
