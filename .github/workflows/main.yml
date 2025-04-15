@@ -50,5 +50,5 @@ jobs:
             -Dsonar.jacoco.reportPaths=target/jacoco.exec \
             -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml \
             -Dsonar.exclusions=**/*Test.java \
-            -Dsonar.java.binaries=target/classes \
-            $(if [ -d "target/vprofile-v2/WEB-INF/classes" ]; then echo "-Dsonar.java.binaries=target/vprofile-v2/WEB-INF/classes"; fi)
+            -Dsonar.java.binaries=target/classes 
+            
