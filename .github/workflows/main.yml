@@ -17,7 +17,7 @@ jobs:
           distribution: 'temurin'
           java-version: '11'
 
-      - name: Build with Maven (compile, test, coverage)
+      - name: Build with Maven
         run: mvn clean verify
         working-directory: hprofile
 
